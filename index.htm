@@ -1,24 +1,50 @@
 <html>
 <head>
 <title>myed's phoshorus wrapper</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        var theprojecturl = "";
+    var theprojectid = "";
+function startwinexe() {
+
+  $( "#content" ).fadeOut(function() {
+   document.getElementById("content").innerHTML = '<input id="projectlink" type="text" style="width: 50%" placeholder="Scratch project link"></input><br><button onclick="winexep2();">Continue</button>';
+       $( "#content" ).fadeIn();
+  }); 
+}
+ function winexep2() {
+     theprojecturl = document.getElementById('projectlink').value;
+      $( "#content" ).fadeOut(function() {
+   document.getElementById("content").innerHTML = '<img src="https://thomas.vanhoutte.be/miniblog/wp-content/uploads/light_blue_material_design_loading.gif" height="100" width="100" /><h2>Checking project...</h2>';
+       $( "#content" ).fadeIn();
+       $.get(theprojecturl)
+    .done(function() { 
+        $( "#content" ).fadeOut(function() {
+   document.getElementById("content").innerHTML = '<h4>More stuff would go here</h4>';
+       $( "#content" ).fadeIn();
+  });
+
+    }).fail(function() { 
+     
+  $( "#content" ).fadeOut(function() {
+   document.getElementById("content").innerHTML = '<input id="projectlink" type="text" style="width: 50%" placeholder="That link doesn\'t work. Try another."></input><br><button onclick="winexep2();">Continue</button>';
+       $( "#content" ).fadeIn();
+  }); 
+
+    })   
+  }); 
+     
+ }
+   
+    
+    </script>
 <link href="https://fonts.googleapis.com/css?family=Mukta" rel="stylesheet">
   <style>
-    div{
-  background: white;
-  bottom: 0;
-  height: 100px;
-  left: 0;
-  margin: auto;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100px;
-      font-family: 'Mukta', sans-serif;
-};
-    .button {
+ 
+    button {
     background-color: #e7e7e7; color: black;
     border: none;
-    color: white;
+    color: black;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -27,16 +53,28 @@
     margin: 4px 2px;
     cursor: pointer;
 }
+      input[type=text], select {
+
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+             font-size: 20px;
+}
+
   </style>
 </head>
-<body>
+<body style="font-family: 'Mukta', sans-serif;">
+
+    <center>
+         <h1>phosphoruswrapper</h1>
 <div id="content">
-  <center>
-<h1>phosphoruswrapper</h1>
-  <h3>Pick output type</h3>
-  <button id="winEXE">Windows</button>
-  <button id="androAPK">Android</button>
-  </center>
-</div>
+  <button id="winexe" onclick="startwinexe();">Windows</button>
+  <button id="androAPK" onclick='alert("Android wrapper coming soon.")'>Android</button>
+  <!--  <input type="text" style="width: 140"></input> -->
+  </div>
+</center>
 </body>
 </html>
