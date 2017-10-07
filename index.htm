@@ -1,10 +1,19 @@
 <html>
 <head>
 <title>myed's phoshorus wrapper</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.2/jszip.min.js"></script>
+        <script src="https://cdn.rawgit.com/Stuk/jszip-utils/dfdd631c4249bc495d0c335727ee547702812aa5/dist/jszip-utils.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2014-11-29/FileSaver.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
+        // No comments yet :( I'll add them soon
         var theprojecturl = "";
     var theprojectid = "";
+        var wrapperpreset = "";
+        var wrapperwbs = "0";
+        var wrapperdefaultopen
+        
+        // WinEXE part1
 function startwinexe() {
 
   $( "#content" ).fadeOut(function() {
@@ -12,20 +21,23 @@ function startwinexe() {
        $( "#content" ).fadeIn();
   }); 
 }
+        //WINEXE p2
  function winexep2() {
-     theprojecturl = document.getElementById('projectlink').value;
+     theprojecturl = document.getElementById('projectlink').value.replace("https://scratch.mit.edu/projects/", "https://cdn.projects.scratch.mit.edu/internalapi/project/") + "/get/";
+     theprojectid = document.getElementById('projectlink').value.replace("https://scratch.mit.edu/projects/", "").replace("/", "");
       $( "#content" ).fadeOut(function() {
    document.getElementById("content").innerHTML = '<img src="https://thomas.vanhoutte.be/miniblog/wp-content/uploads/light_blue_material_design_loading.gif" height="100" width="100" /><h2>Checking project...</h2>';
        $( "#content" ).fadeIn();
        $.get(theprojecturl)
     .done(function() { 
+           // When everything checks out - go here
         $( "#content" ).fadeOut(function() {
-   document.getElementById("content").innerHTML = '<h4>More stuff would go here</h4>';
+   document.getElementById("content").innerHTML = '<img src="https://cdn2.scratch.mit.edu/get_image/project/'+ theprojectid +'_282x210.png"/><h3>Is this the project you want?</h3><button onclick="winexep3();">Yes, continue</button><br><button onclick="startwinexe();">No, pick another</button>';
        $( "#content" ).fadeIn();
   });
 
     }).fail(function() { 
-     
+     // When there's a problem with the link
   $( "#content" ).fadeOut(function() {
    document.getElementById("content").innerHTML = '<input id="projectlink" type="text" style="width: 50%" placeholder="That link doesn\'t work. Try another."></input><br><button onclick="winexep2();">Continue</button>';
        $( "#content" ).fadeIn();
@@ -36,6 +48,80 @@ function startwinexe() {
      
  }
    
+function winexep3() {
+    $( "#content" ).fadeOut(function() {
+   document.getElementById("content").innerHTML = '<font size="5">Windows Wrapper settings</font><br><font size="4">Select a preset</font><br> <select id="presets"><option value="classic">Classic</option><option value="fullscreen">Fullscreen</option><option value="fixed">Fixed</option><option value="custom">Custom</option></select><br><button onclick="winexep4();">Download wrapper</button>';
+       $( "#content" ).fadeIn();
+  });  
+}
+        function winexep4() {
+           wrapperpreset = document.getElementById("presets").options[ document.getElementById("presets").selectedIndex ].text;
+                 $( "#content" ).fadeOut(function() {
+   if (wrapperpreset == "Custom") {
+       picknonpresets();
+   } else {
+   winexebuild();   
+   }
+                 })
+        }
+                                         
+        function picknonpresets() {
+       document.getElementById("content").innerHTML = '<font size="5">Windows Wrapper settings</font><br><font size="4">ADVANCED: Set exact settings for the Windows Wrapper</font><br><font size="4">Form border style</font><br><select id="fbs"><option>FixedToolWindow</option><option>None</option><option>Sizable</option><option>SizableToolWindow</option></select><br><br><font size="4">Form start state</font><br><select id="fss"><option>Normal</option><option>Minimised</option><option>Maximised</option></select><br><button onclick="setthenbuild();">Download wrapper</button>';
+       $( "#content" ).fadeIn();     
+                 }
+            function setthenbuild() {
+                wrapperdefaultopen = document.getElementById("fss").options[ document.getElementById("fss").selectedIndex ].text;
+                wrapperwbs = document.getElementById("fbs").options[ document.getElementById("fbs").selectedIndex ].text;
+                    winexebuild();
+            }
+      
+            
+            function winexebuild() {
+                   $( "#content" ).fadeOut(function() {
+   document.getElementById("content").innerHTML = '<img src="https://thomas.vanhoutte.be/miniblog/wp-content/uploads/light_blue_material_design_loading.gif" height="100" width="100" /><h2>Building Wrapper...</h2>';
+                       
+       $( "#content" ).fadeIn();
+                       // Let's build this thing
+                       var zip = new JSZip();
+zip.file("wrapper.config", theprojectid +","+ wrapperpreset +","+ wrapperdefaultopen + "," + wrapperwbs);
+zip.generateAsync({type:"blob"})
+.then(function(content) {
+    // see FileSaver.js
+    saveAs(content, "windowswrapperv0.zip");
+    
+    rateus();
+});
+                       
+                       
+                   })
+            }
+        
+      
+        // When done ask for reviews
+ function rateus() {
+    $( "#content" ).fadeOut(function() {
+   document.getElementById("content").innerHTML = '<font size="5">Build complete.</font><br><font size="4">What did you think of myed\'s phoshorus wrapper?<br>Your feedback is greatly appreciated.</font><br><button onclick="rateilike();">Worked great!</button><br><button onclick="ratemeh();">Needs improvement.</button><br><button onclick="rateitsucked();">It sucked / I had an error</button>';
+       $( "#content" ).fadeIn();
+  });  
+}  
+        function rateilike() {
+              $( "#content" ).fadeOut(function() {
+   document.getElementById("content").innerHTML = '<font size="5">Thanks for the feedback</font><br><img src="http://simplehitcounter.com/hit.php?uid=2306045&f=0&b=16777215" /> others felt the same.';
+       $( "#content" ).fadeIn();
+  });
+        }
+       function ratemeh() {
+              $( "#content" ).fadeOut(function() {
+   document.getElementById("content").innerHTML = '<font size="5">Thanks for the feedback</font><br><img src="http://simplehitcounter.com/hit.php?uid=2306049&f=0&b=16777215" /> others felt the same.';
+       $( "#content" ).fadeIn();
+  });
+        }    
+       function rateitsucked() {
+              $( "#content" ).fadeOut(function() {
+   document.getElementById("content").innerHTML = '<font size="5">Thanks for the feedback</font><br><img src="http://simplehitcounter.com/hit.php?uid=2306051&f=0&b=16777215" /> others felt the same.<br><small>To report problems, use the issues tab on our GitHub page.</small>';
+       $( "#content" ).fadeIn();
+  });
+        }  
     
     </script>
 <link href="https://fonts.googleapis.com/css?family=Mukta" rel="stylesheet">
