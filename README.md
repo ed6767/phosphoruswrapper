@@ -1,2 +1,2 @@
 # phophoruswrapper
-edxtech.uk/phoshoruswrapper
+https://edxtech.github.io/phosphoruswrapper/
