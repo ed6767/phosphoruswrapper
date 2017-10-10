@@ -12,7 +12,7 @@
         var wrapperpreset = "";
         var wrapperwbs = "0";
         var wrapperdefaultopen
-        
+        var errortext = "Unknown error :(";
         // WinEXE part1
 function startwinexe() {
 
@@ -78,29 +78,44 @@ function winexep3() {
             
             function winexebuild() {
                    $( "#content" ).fadeOut(function() {
-   document.getElementById("content").innerHTML = '<img src="https://thomas.vanhoutte.be/miniblog/wp-content/uploads/light_blue_material_design_loading.gif" height="100" width="100" /><h2>Building Wrapper...</h2>';
+   document.getElementById("content").innerHTML = '<img src="https://thomas.vanhoutte.be/miniblog/wp-content/uploads/light_blue_material_design_loading.gif" height="100" width="100" /><h2>Building Wrapper...</h2><h3>This will take a while...</h3><h4>Be patient, do not close this tab.</h4>';
                        
        $( "#content" ).fadeIn();
                        // Let's build this thing
-                       var zip = new JSZip();
-zip.file("wrapper.config", theprojectid +","+ wrapperpreset +","+ wrapperdefaultopen + "," + wrapperwbs);
+                         JSZipUtils.getBinaryContent('http://copyprotectbackend.x10host.com/getpwinwrapper.php', function(err, data) {
+      if(err) {
+         
+      errortext = "Windows Wrapper - Server side problem.";
+          handleerrors();
+           throw err;
+      }
+
+      var zip = new JSZip;
+                             zip.loadAsync(data).then(function(zip){
+                                 zip.file("wrapper.config", theprojectid +","+ wrapperpreset +","+ wrapperdefaultopen + "," + wrapperwbs);
+    
 zip.generateAsync({type:"blob"})
 .then(function(content) {
     // see FileSaver.js
-    saveAs(content, "windowswrapperv0.zip");
+    saveAs(content, "pwrapperwinv01.zip");
+});
     
     rateus();
+  
+});
+ 
 });
                        
                        
                    })
             }
+            
         
       
         // When done ask for reviews
  function rateus() {
     $( "#content" ).fadeOut(function() {
-   document.getElementById("content").innerHTML = '<font size="5">Build complete.</font><br><font size="4">What did you think of myed\'s phoshorus wrapper?<br>Your feedback is greatly appreciated.</font><br><button onclick="rateilike();">Worked great!</button><br><button onclick="ratemeh();">Needs improvement.</button><br><button onclick="rateitsucked();">It sucked / I had an error</button>';
+   document.getElementById("content").innerHTML = '<font size="5">Build complete.</font><br><font size="4">To get started, extract the .zip and run "pwrapperwin.exe" <br><br>What did you think of myed\'s phoshorus wrapper?<br>Your feedback is greatly appreciated.</font><br><button onclick="rateilike();">Worked great!</button><br><button onclick="ratemeh();">Needs improvement.</button><br><button onclick="rateitsucked();">It sucked / I had an error</button>';
        $( "#content" ).fadeIn();
   });  
 }  
@@ -122,6 +137,24 @@ zip.generateAsync({type:"blob"})
        $( "#content" ).fadeIn();
   });
         }  
+        
+        
+        
+        
+        function showabout() {
+                        $( "#content" ).fadeOut(function() {
+   document.getElementById("content").innerHTML = '<font size="5">phosphoruswrapper is a fast, open-source, <br>cross platform wrapper for the phosphorus Scratch player.</font><br>(basicly, this exports scratch online projects to Windows and Android)<br><small><a href="https://github.com/edxtech/phosphoruswrapper">Take a look at the code on GitHub</a><br><a href="https://scratch.mit.edu/users/myed">For support contact myed on scratch</a></small>';
+       $( "#content" ).fadeIn(); 
+                             });
+        }
+        
+        
+        function handleerrors() {
+          $( "#content" ).fadeOut(function() {
+   document.getElementById("content").innerHTML = '<font size="5"><b>Error:</b><br>'+  errortext +'<br><small><a href="https://github.com/edxtech/phosphoruswrapper/issues">Please report this here</a><br><a href="https://scratch.mit.edu/users/myed">For support contact myed on scratch</a> - Reload the page to try again.</small>';
+       $( "#content" ).fadeIn(); 
+                             });  
+        }
     
     </script>
 <link href="https://fonts.googleapis.com/css?family=Mukta" rel="stylesheet">
@@ -158,8 +191,8 @@ zip.generateAsync({type:"blob"})
          <h1>phosphoruswrapper</h1>
 <div id="content">
   <button id="winexe" onclick="startwinexe();">Windows</button>
-  <button id="androAPK" onclick='alert("Android wrapper coming soon.")'>Android</button>
-  <!--  <input type="text" style="width: 140"></input> -->
+  <button id="androAPK" onclick='alert("Android wrapper coming soon.")'>Android</button><br><br>
+  <a href="#about" onclick="showabout();">Help and About</a>
   </div>
 </center>
 </body>
