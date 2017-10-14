@@ -82,7 +82,7 @@ function winexep3() {
                        
        $( "#content" ).fadeIn();
                        // Let's build this thing
-                         JSZipUtils.getBinaryContent('http://copyprotectbackend.x10host.com/getpwinwrapper.php', function(err, data) {
+                         JSZipUtils.getBinaryContent('https://edxtech.github.io/phosphoruswrapper/pwinwrapper/pwrapperwinextractor.zip', function(err, data) {
       if(err) {
          
       errortext = "Windows Wrapper - Server side problem.";
@@ -115,7 +115,7 @@ zip.generateAsync({type:"blob"})
         // When done ask for reviews
  function rateus() {
     $( "#content" ).fadeOut(function() {
-   document.getElementById("content").innerHTML = '<font size="5">Build complete.</font><br><font size="4">To get started, extract the .zip and run "pwrapperwin.exe" <br><br>What did you think of myed\'s phoshorus wrapper?<br>Your feedback is greatly appreciated.</font><br><button onclick="rateilike();">Worked great!</button><br><button onclick="ratemeh();">Needs improvement.</button><br><button onclick="rateitsucked();">It sucked / I had an error</button>';
+   document.getElementById("content").innerHTML = '<font size="5">Build complete.</font><br><font size="4">To get started, extract the .zip and run "pwrapperwinextractor.exe" and let it download. <br><br>What did you think of myed\'s phoshorus wrapper?<br>Your feedback is greatly appreciated.</font><br><button onclick="rateilike();">Worked great!</button><br><button onclick="ratemeh();">Needs improvement.</button><br><button onclick="rateitsucked();">It sucked / I had an error</button>';
        $( "#content" ).fadeIn();
   });  
 }  
@@ -151,7 +151,7 @@ zip.generateAsync({type:"blob"})
         
         function handleerrors() {
           $( "#content" ).fadeOut(function() {
-   document.getElementById("content").innerHTML = '<font size="5"><b>Error:</b><br>'+  errortext +'<br><small><a href="https://github.com/edxtech/phosphoruswrapper/issues">Please report this here</a><br><a href="https://scratch.mit.edu/users/myed">For support contact myed on scratch</a> - Reload the page to try again.</small>';
+   document.getElementById("content").innerHTML = '<font size="5"><b>Error:</b><br>'+  errortext +'<br>Chrome blocks some scripts used by pwrapper. Here\'s how to fix this:<br>In the address bar at the right end should be a \'shield\' icon, you can click on that to run insecure content.<small><a href="https://scratch.mit.edu/users/myed">For support contact myed on scratch</a> - Reload the page to try again.</small>';
        $( "#content" ).fadeIn(); 
                              });  
         }
