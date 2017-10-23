@@ -82,28 +82,40 @@ function winexep3() {
                        
        $( "#content" ).fadeIn();
                        // Let's build this thing
-                         JSZipUtils.getBinaryContent('https://edxtech.github.io/phosphoruswrapper/pwinwrapper/pwrapperwinextractor.zip', function(err, data) {
+                         JSZipUtils.getBinaryContent('https://edxtech.github.io/phosphoruswrapper/pwinwrapper/pwrappercore.zip', function(err, data) {
       if(err) {
          
       errortext = "Windows Wrapper - Server side problem.";
           handleerrors();
            throw err;
       }
+                             JSZipUtils.getBinaryContent("https://edxtech.github.io/phosphoruswrapper/pwinwrapper/libcef.dll", function (err2, data2) {
+   if(err2) {
+       errortext = "Windows Wrapper - Server side problem (2).";
+          handleerrors();
+           
+      throw err2; // or handle the error
+   }
+
+ 
+
 
       var zip = new JSZip;
+                                  
                              zip.loadAsync(data).then(function(zip){
+                                  zip.file("libcef.dll", data2, {binary:true});
                                  zip.file("wrapper.config", theprojectid +","+ wrapperpreset +","+ wrapperdefaultopen + "," + wrapperwbs);
     
 zip.generateAsync({type:"blob"})
 .then(function(content) {
     // see FileSaver.js
-    saveAs(content, "pwrapperwinv01.zip");
+    saveAs(content, "pwrapperwinv02.zip");
 });
     
     rateus();
   
 });
- 
+}); 
 });
                        
                        
@@ -115,7 +127,7 @@ zip.generateAsync({type:"blob"})
         // When done ask for reviews
  function rateus() {
     $( "#content" ).fadeOut(function() {
-   document.getElementById("content").innerHTML = '<font size="5">Build complete.</font><br><font size="4">To get started, extract the .zip and run "pwrapperwinextractor.exe" and let it download. <br><br>What did you think of myed\'s phoshorus wrapper?<br>Your feedback is greatly appreciated.</font><br><button onclick="rateilike();">Worked great!</button><br><button onclick="ratemeh();">Needs improvement.</button><br><button onclick="rateitsucked();">It sucked / I had an error</button>';
+   document.getElementById("content").innerHTML = '<font size="5">Build complete.</font><br><font size="4">To get started, extract the .zip and run "pwrapperwin.exe".<br><br>What did you think of myed\'s phoshorus wrapper?<br>Your feedback is greatly appreciated.</font><br><button onclick="rateilike();">Worked great!</button><br><button onclick="ratemeh();">Needs improvement.</button><br><button onclick="rateitsucked();">It sucked / I had an error</button>';
        $( "#content" ).fadeIn();
   });  
 }  
@@ -191,7 +203,7 @@ zip.generateAsync({type:"blob"})
          <h1>phosphoruswrapper</h1>
 <div id="content">
   <button id="winexe" onclick="startwinexe();">Windows</button>
-  <button id="androAPK" onclick='alert("Android wrapper coming soon.")'>Android</button><br><br>
+  <button id="androAPK" onclick='alert("Android wrapper coming soon. phoswrap 02")'>Android</button><br><br>
   <a href="#about" onclick="showabout();">Help and About</a>
   </div>
 </center>
