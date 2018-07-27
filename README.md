@@ -1,3 +1,6 @@
+### Depreciated...
+###### I am no longer working on this project and haven't for a while. This should still work but I'm not making updates.
+
 # phophoruswrapper
 https://edxtech.github.io/phosphoruswrapper/
 
