@@ -82,14 +82,14 @@ function winexep3() {
                        
        $( "#content" ).fadeIn();
                        // Let's build this thing
-                         JSZipUtils.getBinaryContent('https://edxtech.github.io/phosphoruswrapper/pwinwrapper/pwrappercore.zip', function(err, data) {
+                         JSZipUtils.getBinaryContent('https://ed6767.github.io/phosphoruswrapper/pwinwrapper/pwrappercore.zip', function(err, data) {
       if(err) {
          
       errortext = "Windows Wrapper - Server side problem.";
           handleerrors();
            throw err;
       }
-                             JSZipUtils.getBinaryContent("https://edxtech.github.io/phosphoruswrapper/pwinwrapper/libcef.dll", function (err2, data2) {
+                             JSZipUtils.getBinaryContent("https://ed6767.github.io/phosphoruswrapper/pwinwrapper/libcef.dll", function (err2, data2) {
    if(err2) {
        errortext = "Windows Wrapper - Server side problem (2).";
           handleerrors();
@@ -156,7 +156,7 @@ zip.generateAsync({type:"blob"})
         
         function showabout() {
                         $( "#content" ).fadeOut(function() {
-   document.getElementById("content").innerHTML = '<font size="5">phosphoruswrapper is a fast, open-source, <br>cross platform wrapper for the phosphorus Scratch player.</font><br>(basicly, this exports scratch online projects to Windows and Android)<br><small><a href="https://github.com/edxtech/phosphoruswrapper">Take a look at the code on GitHub</a><br><a href="https://scratch.mit.edu/users/myed">For support contact myed on scratch</a><br><i>This project is powered by the <a href="//phosphorus.github.io">phosphous player</a> but is not affliated with any of it\'s developers or supporters.</small>';
+   document.getElementById("content").innerHTML = '<font size="5">phosphoruswrapper is a fast, open-source, <br>cross platform wrapper for the phosphorus Scratch player.</font><br>(basicly, this exports scratch online projects to Windows and Android)<br><small><a href="https://github.com/ed6767/phosphoruswrapper">Take a look at the code on GitHub</a><br><a href="https://scratch.mit.edu/users/myed">For support contact myed on scratch</a><br><i>This project is powered by the <a href="//phosphorus.github.io">phosphous player</a> but is not affliated with any of it\'s developers or supporters.</small>';
        $( "#content" ).fadeIn(); 
                              });
         }
